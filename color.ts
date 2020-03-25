@@ -38,10 +38,10 @@ export function makeStyle(
 
 export var useColor: boolean = true
 
-export function color(value: string, styles: IANSIEscapeCodes):string{
+export function color(value: string, styles: IANSIEscapeCodes, resetCode:number = 0):string{
     if(!useColor) return value
     const escapeSequence = "\u001b[%sm";
     const escapedStyles = styles.map( s => escapeSequence.replace("%s", s.styleNumber.toString())).join('')
-    const reset = escapeSequence.replace("%s", "0")
+    const reset = escapeSequence.replace("%s", resetCode.toString())
     return escapedStyles + value + reset
 }

@@ -27,15 +27,15 @@ const languages: I18N = {
                     },
                     {
                         flags: ['--json', '-j'],
-                        description: 'Expect input to be JSON'
+                        description: 'Outputs in JSON'
                     },
                     {
                         flags: ['--toml', '-t'],
-                        description: 'Expect input to be TOML'
+                        description: 'Outputs in TOML'
                     },
                     {
                         flags: ['--yaml', '-y'],
-                        description: 'Expect input to be YAML'
+                        description: 'Outputs in YAML'
                     }
                 ].map(z=> z.flags.join(", ").padEnd(20,' ') + z.description)
             ].map(z=>'\t' + z)

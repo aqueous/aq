@@ -52,6 +52,12 @@ if(argments["_"].length == 0)
 else
     inputFiles = []
 
+let outputFormat: IFormat = new JSONFormat();
+if(argments['json']) outputFormat = new JSONFormat()
+else if(argments['toml']) outputFormat = new TOMLFormat()
+else if(argments['yaml']) outputFormat = new YAMLFormat()
+
+
 inputFiles.forEach(async file => {
     const file_lines: string[] = [];
     for await(const line of lines(file)){
@@ -62,18 +68,15 @@ inputFiles.forEach(async file => {
     
     let format: IFormat;
 
-    if(argments['json']) format = new JSONFormat()
-    else if(argments['toml']) format = new TOMLFormat()
-    else if(argments['yaml']) format = new YAMLFormat()
-    else {
-        var detectedFormat = [new JSONFormat(), new TOMLFormat(), new YAMLFormat()].find(f => f.IsOfType(input))
-        if(detectedFormat)
-            format = detectedFormat
-        else{
-            console.error(i18n('formatNotDetected'))
-            Deno.exit(-2)
-        }
+    var detectedFormat = [new JSONFormat(), new TOMLFormat(), new YAMLFormat()].find(f => f.IsOfType(input))
+    if(detectedFormat)
+        format = detectedFormat
+    else{
+        console.error(i18n('formatNotDetected'))
+        Deno.exit(-2)
     }
+
+    
 
     if(!format.IsOfType(input)) {
         console.error(i18n('formatNoMatch', {format: format.constructor.name}))
@@ -84,7 +87,7 @@ inputFiles.forEach(async file => {
 
     var filtered:any = filter(object, userFilter)
 
-    var marshaled = new JSONFormat().Marshal(filtered, argments['color'], argments['compact'])
+    var marshaled = outputFormat.Marshal(filtered, argments['color'], argments['compact'])
     console.log(marshaled)
 
 });
