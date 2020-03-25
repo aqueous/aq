@@ -50,7 +50,7 @@ let inputFiles: Deno.File[] = []
 if(argments["_"].length == 0)
     inputFiles = [Deno.stdin]
 else
-    inputFiles = []
+    inputFiles = argments["_"].map(z => Deno.openSync(z as string, 'r'))
 
 let outputFormat: IFormat = new JSONFormat();
 if(argments['json']) outputFormat = new JSONFormat()
@@ -68,7 +68,7 @@ inputFiles.forEach(async file => {
     
     let format: IFormat;
 
-    var detectedFormat = [new JSONFormat(), new TOMLFormat(), new YAMLFormat()].find(f => f.IsOfType(input))
+    var detectedFormat = [new JSONFormat(), new YAMLFormat(), new TOMLFormat() ].find(f => f.IsOfType(input))
     if(detectedFormat)
         format = detectedFormat
     else{
@@ -77,14 +77,13 @@ inputFiles.forEach(async file => {
     }
 
     
-
     if(!format.IsOfType(input)) {
         console.error(i18n('formatNoMatch', {format: format.constructor.name}))
         Deno.exit(-3)
     }
 
     var object:any = format.Unmarshal(input)
-
+    
     var filtered:any = filter(object, userFilter)
 
     var marshaled = outputFormat.Marshal(filtered, argments['color'], argments['compact'])
