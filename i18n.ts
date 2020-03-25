@@ -36,6 +36,10 @@ const languages: I18N = {
                     {
                         flags: ['--yaml', '-y'],
                         description: 'Outputs in YAML'
+                    },
+                    {
+                        flags: ['--color', '-c'],
+                        description: 'Output in color'
                     }
                 ].map(z=> z.flags.join(", ").padEnd(20,' ') + z.description)
             ].map(z=>'\t' + z)
