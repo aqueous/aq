@@ -39,7 +39,7 @@ if(argments['help']){
 }
 if(argments["_"].length == 0)
 {
-    console.error(i18n(''))
+    console.error(i18n('helpMessage'))
     Deno.exit(-4)
 }
 
