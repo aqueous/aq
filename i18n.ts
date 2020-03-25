@@ -53,6 +53,7 @@ interface I18NLanguage {
     useHelp: string,
     helpMessage: string,
     formatNotDetected: string,
+    formatNoMatch: string,
     [key: string]: string
 }
 
